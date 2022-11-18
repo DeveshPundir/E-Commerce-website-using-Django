@@ -1,0 +1,129 @@
+{% extends "shop/base.html" %}
+{% block title %}{{product.product_name}}{% endblock title %}
+{% block style %}
+.inc-dec{
+  display:flex;
+  flex-direction:row;
+  gap:8px;
+  
+  font-size:40px;
+}
+.view-inc-dec{
+  display:flex;
+  flex-diraction:row;
+  justify-content:space-between;
+  align-items:center;
+   
+}
+.button+inc-dec{
+  justify-content:center;
+}
+
+{% endblock style %}
+{% block body %}
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-4">
+        <div class="row">
+        <img src="/media/{{product.image}}" width="233px" height="385px" alt="">
+       </div>
+        
+    </div>
+    <div class="col-md-8">
+        <h5>{{product.product_name}}</h5>
+        <p><b>MRP Rs.{{product.price}}</b></p>
+        <p>{{product.desc}}</p>
+        <div class="col-md-6 button+inc-dec">
+          
+          <a href="/shop/checkout"> <button class="btn btn-primary mx-3 my-4">Go to Cart</button></a>
+         
+           <div class="buttons inc-dec ">
+
+             <i onclick="decrement('{{product.id}}','{{product.product_name}}','{{product.price}}')" class="bi bi-dash-lg" style="color:red"></i>
+             <div id="h{{product.id}}">0</div>
+             <i onclick="increment('{{product.id}}','{{product.product_name}}','{{product.price}}')" class="bi bi-plus-lg" style="color:green"></i>
+           </div>
+       </div>
+    </div>
+    
+</div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+let basket=JSON.parse(localStorage.getItem("data"))||[];
+var sum=0;
+
+for(var i=0;i<basket.length;i++)
+{
+  var s="h"+basket[i].id;
+  let l=document.getElementById(s);
+  if(l!=null)
+  document.getElementById(s).innerHTML=basket[i].item;
+console.log(basket[i]);
+sum+=basket[i].item;
+} 
+
+if(sum!==0)
+{
+  document.getElementById("cartAmount").innerText=sum;
+}
+console.log('working');
+let increment=(id,name,price)=>{
+  let search =basket.find((x)=>x.id===id);
+  if(search===undefined)
+  {
+    basket.push({id:id,name:name,price:price,item:1});
+    
+    localStorage.setItem("data",JSON.stringify(basket));
+    update(id,1);
+  }
+  else
+  {
+    search.item+=1;
+    
+    localStorage.setItem("data",JSON.stringify(basket));
+    update(id,search.item);
+  }
+  
+  console.log(basket);
+  
+};
+let decrement =(id,name,price)=>{
+
+   let search =basket.find((x)=>x.id===id);
+  if(search===undefined)
+  return;
+  else if(search.item===0)
+  return 
+  else
+    search.item-=1;
+    
+    
+    basket = basket.filter((x) => x.item !== 0);
+    update(id,search.item);
+    localStorage.setItem("data",JSON.stringify(basket));
+  
+  
+  
+  console.log(basket); 
+};
+let update =(p,no)=>{
+  console.log(no);
+  var s="h"+p;
+    document.getElementById(s).innerText=no;
+    
+    calculation();
+};
+let calculation=()=>{
+    var sum=0;
+    for(var i=0;i<basket.length;i++)
+    {
+      sum+=basket[i].item;
+    }
+    document.getElementById("cartAmount").innerText=sum;
+
+}
+calculation();
+</script>
+{% endblock  %}

@@ -1,0 +1,22 @@
+{% extends "shop/base.html" %}
+{% block title %}Conatact US{% endblock title %}
+{% block body %}Hello{% endblock body %}
+{% block js %}
+<script>
+let basket=JSON.parse(localStorage.getItem("data"))||[];
+var sum=0;
+
+for(var i=0;i<basket.length;i++)
+{
+  var s="h"+basket[i].id;
+console.log(basket[i]);
+sum+=basket[i].item;
+} 
+
+if(sum!==0)
+{
+  document.getElementById("cartAmount").innerText=sum;
+}
+console.log('working');
+</script>
+{% endblock  %}

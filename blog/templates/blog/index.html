@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+{% block title %} Blog {% endblock %}
+{% block body %}
+    
+    <div class="container">
+
+      <div class="row mb-2">
+      {% for i in myposts  %}
+
+      
+        <div class="col-md-6">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary">{{i.head0}}</strong>
+              <h3 class="mb-0">{{i.title}}</h3>
+              <div class="mb-1 text-muted">{{i.pub_date}}</div>
+              <p class="card-text mb-auto">{{i.head0}}</p>
+              <a href='blogpost/{{i.post_id}}' class="stretched-link">Continue reading</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+            <img src="/media/{{i.thumbnail}}" class="bd-placeholder-img" width="300" height="250" alt=""><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+    
+            </div>
+          </div>
+        </div>
+        
+        
+        {% if forloop.counter|divisibleby:2  %}
+      </div><div class="row mb-2">
+      {% endif %}
+    
+      {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    {% endblock body %}
+

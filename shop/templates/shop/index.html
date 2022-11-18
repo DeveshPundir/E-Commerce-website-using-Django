@@ -1,0 +1,356 @@
+{% extends 'shop/base.html' %}
+{% block style %}
+      .inc-dec{
+        display:flex;
+        flex-direction:row;
+        gap:8px;
+        font-size:16px;
+      }
+      .view-inc-dec{
+        display:flex;
+        flex-diraction:row;
+        justify-content:space-between;
+        align-items:center;
+
+      }
+      .col-md-3
+      {
+        display: inline-block;
+        margin-left:-4px;
+      }
+      .col-md-3 img{
+           width: 170px;
+          height: 200px;
+          margin-left:50px;
+      }
+      body .carousel-indicator li{
+        background-color:blue;
+      }
+      body .carousel-indicators{
+        bottom:0;
+      }
+      body .carousel-control-prev-icon,
+      body .carousel-control-next-icon{
+       
+        background-color:red;
+      }
+     body .carousel-control-next,
+    body  .carousel-control-prev
+      {
+        top: auto;
+        bottom: auto;
+padding-top:222px;
+      }
+      body .no-padding{
+        padding-left:0;
+        padding-right:0;
+      }
+      {% endblock style %} 
+   {% block body %}
+   <h1 style="text-align:center">Welcome,Dev</h1>
+   <br>
+   <br>
+
+   {% load static %}
+    <div class="container">
+
+      {% for  product, range,nslides in allProds  %}
+      <h1 class="my-4">{{product.0.category}}</h1>
+      <div class="row" style="padding-left:25px">
+      <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
+          <ul class="carousel-indicators">
+            <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+            {% for i in range %}
+            <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+            {% endfor %}
+            
+          </ul>
+      
+          <!--Slideshow starts here -->
+          <div class="container carousel-inner no-padding">
+      
+            <div class="carousel-item active">
+              {% comment %} <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='/media/{{product.0.image}}' class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <h5 class="card-title">{{product.0.product_name}}</h5>
+                      <p class="card-text">{{product.0.product_desc}}</p>
+                      <button id="pr{{product.0.id}}" class="btn btn-primary cart">Add to Cart</button>
+                  </div>
+                </div>
+             </div> {% endcomment %}
+              {% for i in product  %}
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='/media/{{i.image}}' class="card-img-top "   alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{i.product_name}}</h5>
+                    <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+                    <div class="view-inc-dec">
+                    <a href="/shop/products/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary ">QuickView</button></a>
+                    <div class="buttons inc-dec">
+
+                      <i onclick="decrement('{{i.id}}','{{i.product_name}}','{{i.price}}')" class="bi bi-dash-lg" style="color:red"></i>
+                      <div id="h{{i.id}}" >0</div>
+                      <i onclick="increment('{{i.id}}','{{i.product_name}}','{{i.price}}')" class="bi bi-plus-lg" style="color:green"></i>
+                    </div>
+                  </div>
+                    {% comment %} <button id="pr{{i.id}}" class="btn btn-primary ">Add to Cart</button> {% endcomment %}
+                    
+
+                  </div>
+                </div>
+              </div>
+              {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+   
+            </div>
+            <div class="carousel-item">
+              {% endif %}
+              
+              {% endfor %}
+              
+            </div>
+          </div>
+              {% comment %} <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+      
+      
+            <div class="carousel-item">
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <div class="carousel-item">
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+             </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+      
+       {% endcomment %}
+      </div>
+          <!-- left and right controls for the slide -->
+          <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+              <span class="carousel-control-next-icon"></span>
+          </a>
+        </div>
+          {% endfor %}
+        </div>     
+    {% endblock body %}
+{% block js %}
+  <script>
+    
+    let basket=JSON.parse(localStorage.getItem("data"))||[];
+    var sum=0;
+   if(basket.length>0)
+   { for(var i=0;i<basket.length;i++)
+    {
+      var s="h"+basket[i].id;
+  document.getElementById(s).innerHTML=basket[i].item;
+  sum+=basket[i].item;
+    }
+  }
+    if(sum!==0)
+    {
+      document.getElementById("cartAmount").innerText=sum;
+    }
+    {% comment %} console.log('working');
+    if(localStorage.getItem('cart')==null)
+    {
+      var cart={};
+    }
+    else
+    {
+      cart=JSON.parse(localStorage.getItem('cart'));
+      document.getElementById('cart').innerHTML=Object.keys(cart).length;
+    }
+    $('.cart').click(function(){
+      console.log('clicked');
+      var idstr=this.id.toString();
+      console.log('clicked');
+      if(cart[idstr]!=undefined)
+      {
+        cart[idstr]=cart[idstr]+1;
+      }
+      else{
+        cart[idstr]=1;
+      }
+      console.log(cart);
+      localStorage.setItem('cart',JSON.stringify(cart));
+      popStr =  "<a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> "
+      console.log(popStr);
+      document.getElementById('popcart').setAttribute('data-bs-content', popStr);
+      document.getElementById('cart').innerHTML=Object.keys(cart).length;
+    });
+    
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+ {% endcomment %}
+let increment=(id,name,price)=>{
+  let search =basket.find((x)=>x.id===id);
+  if(search===undefined)
+  {
+    basket.push({id:id,name:name,price:price,item:1});
+    
+    localStorage.setItem("data",JSON.stringify(basket));
+    update(id,1);
+  }
+  else
+  {
+    search.item+=1;
+    
+    localStorage.setItem("data",JSON.stringify(basket));
+    update(id,search.item);
+  }
+  
+  console.log(basket);
+  
+};
+let decrement =(id,name,price)=>{
+
+   let search =basket.find((x)=>x.id===id);
+  if(search===undefined)
+  return;
+  else if(search.item===0)
+  return 
+  else
+    search.item-=1;
+    
+    
+    basket = basket.filter((x) => x.item !== 0);
+    update(id,search.item);
+    localStorage.setItem("data",JSON.stringify(basket));
+  
+  
+  
+  console.log(basket); 
+};
+let update =(p,no)=>{
+  console.log(no);
+  var s="h"+p;
+    document.getElementById(s).innerText=no;
+    
+    calculation();
+};
+let calculation=()=>{
+    var sum=0;
+    for(var i=0;i<basket.length;i++)
+    {
+      sum+=basket[i].item;
+    }
+    document.getElementById("cartAmount").innerText=sum;
+
+}
+  </script>
+{% endblock js %}
+
+
+
+          
